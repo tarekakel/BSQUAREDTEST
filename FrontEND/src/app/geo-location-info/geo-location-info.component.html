@@ -1,0 +1,61 @@
+<form [formGroup]="geoLocationInfoForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="ip address"
+          formControlName="ip"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <input
+          type="submit"
+          value="get Geo Location"
+          class="btn btn-primary"
+          [disabled]="!geoLocationInfoForm.valid"
+        />
+      </div>
+    </div>
+  </div>
+</form>
+<div class="row" style="padding-top: 30px">
+  <div class="col-12">
+    <div class="card" style="width: 18rem">
+      <div *ngIf="isLoading" class="spinner-border" role="status"></div>
+      <div class="card-body">
+        <h5 class="card-title">Geo Location Info</h5>
+        <div *ngIf="(geoLocationInfo | json) == '{}' && !isLoading">
+          <Label>Please submit Ip To get geo Location Info</Label>
+        </div>
+        <div *ngIf="(geoLocationInfo | json) != '{}'">
+          <label>IP: {{ geoLocationInfo.IPv4 }}</label>
+          <br />
+          <label>Country: {{ geoLocationInfo.country_name }}</label>
+          <br />
+          <label>City: {{ geoLocationInfo.city }}</label>
+          <br />
+          <label>State: {{ geoLocationInfo.state }}</label>
+          <br />
+          <label>Postal: {{ geoLocationInfo.postal }}</label>
+          <br />
+          <label>Country Code: {{ geoLocationInfo.country_code }}</label>
+          <br />
+          <a
+            [href]="
+              'https://www.google.com/maps/search/?api=1&query=' +
+              geoLocationInfo.latitude +
+              ',' +
+              geoLocationInfo.longitude
+            "
+            target="_blank"
+            >Show on map</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
